@@ -18,28 +18,47 @@
 
 namespace xi {
 
+    std::ostream& operator<<(std::ostream& outs, const Subject& subj)
+    {
+        outs << subj.name << ": " << subj.title << "\n";
 
-std::ostream& operator<<(std::ostream& outs, const Subject& subj)
-{   
-    outs << subj.name << ": " << subj.title << "\n";
-   
-    int index = 0;
-    int maxSubj = subj.description.getCapacity();
+        int index = 0;
+        int maxSubj = subj.description.getCapacity();
 
-    while (index < maxSubj && subj.description[index] != "")
-        outs << subj.description[index++] << "\n";
+        while (index < maxSubj && subj.description[index] != "")
+            outs << subj.description[index++] << "\n";
 
-    return outs;
-}
+        return outs;
+    }
 
 
-std::istream& operator>>(std::istream& ins, Subject& subj)
-{
-    // TODO: здесь необходимо дописать реализацию метода
+    std::istream& operator>>(std::istream& ins, Subject& subj)
+    {
+        std::string t = "";
+        int i = 0;
 
-    return ins;
-}
+        while ((!t.empty()) && (std::getline(ins, t)))
+        {
+            if (i == 0)
+            {
+                subj.name = t;
+                i++;
+            }
 
+            else if (i == 1)
+            {
+                subj.title = t;
+                i++;
+            }
+
+            else
+            {
+                subj.description[i++ -2] = t;
+            }
+        }
+
+        return ins;
+    }
 
 } // namespace xi
 
